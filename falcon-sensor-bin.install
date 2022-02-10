@@ -1,0 +1,22 @@
+pre_install() {
+	systemctl stop falcon-sensor
+}
+
+post_install() {
+	systemctl daemon-reload
+	systemctl enable --system --quiet --now falcon-sensor.service
+        echo "To link the Falcon sensor, run 'sudo /opt/CrowdStrike/falconctl -s --cid=<CID>' and restart the service."
+}
+
+pre_upgrade() {
+	systemctl stop falcon-sensor
+}
+
+post_upgrade() {
+	systemctl daemon-reload
+	systemctl enable --system --quiet --now falcon-sensor.service
+}
+
+pre_remove() {
+	systemctl disable --system --quiet --now falcon-sensor
+}
